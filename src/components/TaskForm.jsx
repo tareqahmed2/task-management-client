@@ -1,16 +1,38 @@
-// frontend/src/components/TaskForm.jsx
 import { useState } from "react";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
-const TaskForm = ({ addTask }) => {
+const TaskForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { setTaskData } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (title.trim() === "") return;
-    addTask({ title, description, category: "To-Do" });
-    setTitle("");
-    setDescription("");
+
+    // Create the timestamp in the desired format
+    const timestamp = new Date().toISOString();
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/tasks", {
+        title,
+        description,
+        category: "To-Do",
+        timestamp: timestamp, // Send the created timestamp
+      });
+      if (response.data.insertedId) {
+        setTaskData(true);
+      }
+
+      // After adding the task, refetch the tasks
+
+      // Reset the form
+      setTitle("");
+      setDescription("");
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
   return (

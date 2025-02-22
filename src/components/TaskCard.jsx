@@ -1,4 +1,3 @@
-// frontend/src/components/TaskCard.jsx
 const TaskCard = ({ task }) => {
   return (
     <div className="bg-white p-4 rounded shadow">

@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import useAuth from "../hooks/useAuth";
 
-const Navbar = ({ user, handleLogin, handleLogout }) => {
+const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, logout } = useAuth(); // Get user and logout function from useAuth
+  const handleLogOut = () => {
+    navigate("/");
+    logout();
+  };
   return (
     <nav className="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 p-4 shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -18,21 +24,26 @@ const Navbar = ({ user, handleLogin, handleLogout }) => {
           <Link to="/" className="text-white text-lg hover:underline">
             Home
           </Link>
-          <Link to="/dashboard" className="text-white text-lg hover:underline">
-            Dashboard
-          </Link>
+
+          {user && (
+            <Link
+              to="/dashboard"
+              className="text-white text-lg hover:underline"
+            >
+              Dashboard
+            </Link>
+          )}
+
           {user ? (
             <button
-              onClick={handleLogout}
+              onClick={() => logout()}
               className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600"
             >
               Logout
             </button>
           ) : (
             <button
-              onClick={() => {
-                navigate("/login");
-              }}
+              onClick={() => navigate("/login")}
               className="bg-green-500 px-4 py-2 rounded-lg text-white hover:bg-green-600"
             >
               Login
@@ -59,17 +70,21 @@ const Navbar = ({ user, handleLogin, handleLogout }) => {
           >
             Home
           </Link>
-          <Link
-            to="/dashboard"
-            className="hover:underline"
-            onClick={() => setMenuOpen(false)}
-          >
-            Dashboard
-          </Link>
+
+          {user && (
+            <Link
+              to="/dashboard"
+              className="hover:underline"
+              onClick={() => setMenuOpen(false)}
+            >
+              Dashboard
+            </Link>
+          )}
+
           {user ? (
             <button
               onClick={() => {
-                handleLogout();
+                handleLogOut();
                 setMenuOpen(false);
               }}
               className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600"
@@ -78,9 +93,7 @@ const Navbar = ({ user, handleLogin, handleLogout }) => {
             </button>
           ) : (
             <button
-              onClick={() => {
-                navigate("/login");
-              }}
+              onClick={() => navigate("/login")}
               className="bg-green-500 px-4 py-2 rounded-lg text-white hover:bg-green-600"
             >
               Login

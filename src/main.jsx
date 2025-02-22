@@ -5,9 +5,11 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./layout/Main.jsx";
 import Home from "./pages/Home/Home.jsx";
-import TaskBoard from "./pages/Home/TaskBoard/TaskBoard.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Register from "./pages/Login/Register/Register.jsx";
+import AuthProvider from "./context/AuthProvider.jsx";
+import TaskBoard from "./Dashboard/TaskBoard.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +21,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <TaskBoard></TaskBoard>,
+        element: (
+          <PrivateRoute>
+            <TaskBoard></TaskBoard>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",
@@ -34,6 +40,8 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 );
