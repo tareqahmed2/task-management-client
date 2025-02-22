@@ -21,11 +21,14 @@ const AuthProvider = ({ children }) => {
   const storeUserInDB = async (user) => {
     if (!user) return;
     try {
-      await axios.post("http://localhost:5000/users", {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-      });
+      await axios.post(
+        "https://task-management-server-taupe-nu.vercel.app/users",
+        {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        }
+      );
     } catch (error) {
       console.error("Error storing user in DB:", error);
     }

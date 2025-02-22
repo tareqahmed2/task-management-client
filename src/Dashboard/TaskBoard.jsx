@@ -11,10 +11,13 @@ const ItemTypes = { TASK: "task" };
 // PUT API call function to update task position and category
 const updateTaskPosition = async (taskId, newCategory, newOrder) => {
   try {
-    await axios.put(`http://localhost:5000/api/tasks/${taskId}`, {
-      category: newCategory,
-      order: newOrder,
-    });
+    await axios.put(
+      `https://task-management-server-taupe-nu.vercel.app/api/tasks/${taskId}`,
+      {
+        category: newCategory,
+        order: newOrder,
+      }
+    );
     console.log(
       `Task ${taskId} updated: category ${newCategory}, order ${newOrder}`
     );
@@ -42,7 +45,7 @@ const updateTaskPosition = async (taskId, newCategory, newOrder) => {
 //   const handleEdit = (task) => {
 //     setOpen(true);
 //     const res = axios
-//       .put(`http://localhost:5000/task/update/${task._id}`, {
+//       .put(`https://task-management-server-taupe-nu.vercel.app/task/update/${task._id}`, {
 //         title: task.title,
 //         description: task.description,
 //         category: task.category,
@@ -57,7 +60,7 @@ const updateTaskPosition = async (taskId, newCategory, newOrder) => {
 //   };
 
 //   const handleDelete = async (id) => {
-//     const res = await axios.delete(`http://localhost:5000/task/delete/${id}`);
+//     const res = await axios.delete(`https://task-management-server-taupe-nu.vercel.app/task/delete/${id}`);
 //     console.log(res);
 //     if (res.data.deletedCount > 0) {
 //       setTaskData(true);
@@ -153,7 +156,7 @@ const TaskCard = ({
   const handleUpdate = async () => {
     const { title, description, category } = updatedTask;
     const res = await axios.put(
-      `http://localhost:5000/task/update/${task._id}`,
+      `https://task-management-server-taupe-nu.vercel.app/task/update/${task._id}`,
       {
         title,
         description,
@@ -183,7 +186,9 @@ const TaskCard = ({
   };
 
   const handleDelete = async (id) => {
-    const res = await axios.delete(`http://localhost:5000/task/delete/${id}`);
+    const res = await axios.delete(
+      `https://task-management-server-taupe-nu.vercel.app/task/delete/${id}`
+    );
     if (res.data.deletedCount > 0) {
       setTaskData(true);
       Swal.fire({
@@ -339,7 +344,9 @@ const TaskBoard = () => {
     const fetchTasks = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/tasks");
+        const response = await axios.get(
+          "https://task-management-server-taupe-nu.vercel.app/tasks"
+        );
         console.log("Fetched tasks:", response.data);
         setTasks(response.data);
       } catch (err) {
@@ -414,7 +421,12 @@ const TaskBoard = () => {
     });
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <p className="min-h-screen max-w-screen-xl flex items-center justify-center">
+        Loading...
+      </p>
+    );
   if (error) return <p>Error fetching tasks!</p>;
 
   return (

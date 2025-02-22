@@ -15,12 +15,15 @@ const TaskForm = () => {
     const timestamp = new Date().toISOString();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/tasks", {
-        title,
-        description,
-        category: "To-Do",
-        timestamp: timestamp, // Send the created timestamp
-      });
+      const response = await axios.post(
+        "https://task-management-server-taupe-nu.vercel.app/api/tasks",
+        {
+          title,
+          description,
+          category: "To-Do",
+          timestamp: timestamp, // Send the created timestamp
+        }
+      );
       if (response.data.insertedId) {
         setTaskData(true);
       }

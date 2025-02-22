@@ -12,7 +12,7 @@ const Navbar = () => {
     logout();
   };
   return (
-    <nav className="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 p-4 shadow-lg">
+    <nav className="bg-gradient-to-r sticky top-0 z-10 from-indigo-500 via-purple-600 to-pink-500 p-4 shadow-lg">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="text-white text-2xl font-bold">
